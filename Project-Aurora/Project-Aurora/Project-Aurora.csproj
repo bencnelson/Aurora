@@ -385,6 +385,7 @@
     <Compile Include="Devices\Logitech\LogitechInstallInstructions.xaml.cs">
       <DependentUpon>LogitechInstallInstructions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\Omen\LightingColor.cs" />
     <Compile Include="Devices\Omen\OmenDevice.cs" />
     <Compile Include="Devices\Omen\OmenKeyboard.cs" />
     <Compile Include="Devices\Omen\OmenMouse.cs" />
