@@ -1,15 +1,15 @@
-﻿using Newtonsoft.Json;
+﻿using Aurora.Profiles;
+using Aurora.Profiles.Generic_Application;
+using Aurora.Profiles.Overlays;
+using Aurora.Profiles.Overlays.SkypeOverlay;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Text;
-using Aurora.Profiles.Generic_Application;
-using Aurora.Profiles.Overlays;
-using Aurora.Profiles.Overlays.SkypeOverlay;
-using Aurora.Profiles;
-using Newtonsoft.Json.Serialization;
 
 namespace Aurora.Settings
 {
@@ -233,9 +233,13 @@ namespace Aurora.Settings
         [Description("Drevo BladeMaster")]
         Drevo_BladeMaster = 1000,
 
-	//Creative range is 1100-1199
+	    //Creative range is 1100-1199
         [Description("SoundBlasterX VanguardK08")]
         SoundBlasterX_Vanguard_K08 = 1100,
+
+        //OMEN range 1200-1299
+        [Description("OMEN Sequencer")]
+        OMEN_Sequencer= 1201,
     }
 
     public enum PreferredKeyboardLocalization
@@ -314,7 +318,13 @@ namespace Aurora.Settings
 
         //Asus range is 900-999
         [Description("Asus - Pugio")]
-        Asus_Pugio = 900
+        Asus_Pugio = 900,
+
+        //OMEN range is 1000-1099
+        [Description("OMEN Photon")]
+        OMEN_Photon = 901,
+        [Description("OMEN Outpost + Photon")]
+        OMEN_Outpost_Plus_Photon = 902
     }
 
     public enum KeycapType

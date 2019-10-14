@@ -96,24 +96,30 @@ namespace Aurora.Settings.Layers
 
         private void ScreenshotTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            Image newscreen = Pranas.ScreenshotCapture.TakeScreenshot();
+            try
+            {
+                Image newscreen = Pranas.ScreenshotCapture.TakeScreenshot();
 
-            image_scale_x = Effects.canvas_width / (float)newscreen.Width;
-            image_scale_y = Effects.canvas_height / (float)newscreen.Height;
+                image_scale_x = Effects.canvas_width / (float)newscreen.Width;
+                image_scale_y = Effects.canvas_height / (float)newscreen.Height;
 
-            var newImage = new Bitmap(Effects.canvas_width, Effects.canvas_height);
+                var newImage = new Bitmap(Effects.canvas_width, Effects.canvas_height);
 
-            using (var graphics = Graphics.FromImage(newImage))
-                graphics.DrawImage(newscreen, 0, 0, Effects.canvas_width, Effects.canvas_height);
+                using (var graphics = Graphics.FromImage(newImage))
+                    graphics.DrawImage(newscreen, 0, 0, Effects.canvas_width, Effects.canvas_height);
 
-            avg_color = GetAverageColor(newscreen);
+                avg_color = GetAverageColor(newscreen);
 
-            newscreen?.Dispose();
+                newscreen?.Dispose();
 
-            screen = newImage;
+                screen = newImage;
 
-            if(Utils.Time.GetMillisecondsSinceEpoch() - last_use_time > 2000) //If wasn't used for 2 seconds
-                screenshotTimer.Stop();
+                if (Utils.Time.GetMillisecondsSinceEpoch() - last_use_time > 2000) //If wasn't used for 2 seconds
+                    screenshotTimer.Stop();
+            }
+            catch (Exception ex) {
+                Global.logger.Error("Exception occured in Screenshot Time Elapsed: " + ex);
+            }
         }
 
         public override EffectLayer Render(IGameState gamestate)
