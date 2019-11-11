@@ -29,7 +29,7 @@ namespace Aurora.Profiles
             }
         }
 
-        internal string GetString(string Name)
+        protected string GetString(string Name)
         {
             Newtonsoft.Json.Linq.JToken value;
 
@@ -39,7 +39,7 @@ namespace Aurora.Profiles
                 return "";
         }
 
-        internal int GetInt(string Name)
+        protected int GetInt(string Name)
         {
             Newtonsoft.Json.Linq.JToken value;
 
@@ -49,7 +49,7 @@ namespace Aurora.Profiles
                 return -1;
         }
 
-        internal float GetFloat(string Name)
+        protected float GetFloat(string Name)
         {
             Newtonsoft.Json.Linq.JToken value;
 
@@ -59,7 +59,7 @@ namespace Aurora.Profiles
                 return -1.0f;
         }
 
-        internal long GetLong(string Name)
+        protected long GetLong(string Name)
         {
             Newtonsoft.Json.Linq.JToken value;
 
@@ -69,7 +69,7 @@ namespace Aurora.Profiles
                 return -1;
         }
 
-        internal T GetEnum<T>(string Name)
+        protected T GetEnum<T>(string Name)
         {
             Newtonsoft.Json.Linq.JToken value;
 
@@ -97,7 +97,7 @@ namespace Aurora.Profiles
                 return (T)Enum.Parse(typeof(T), "Undefined", true);
         }
 
-        internal bool GetBool(string Name)
+        protected bool GetBool(string Name)
         {
             Newtonsoft.Json.Linq.JToken value;
 
@@ -107,7 +107,7 @@ namespace Aurora.Profiles
                 return false;
         }
 
-        internal T[] GetArray<T>(string Name)
+        protected T[] GetArray<T>(string Name)
         {
             Newtonsoft.Json.Linq.JToken value;
 
