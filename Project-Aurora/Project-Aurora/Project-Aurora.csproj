@@ -370,6 +370,16 @@
     <Compile Include="Devices\Omen\OmenChassis.cs" />
     <Compile Include="Devices\Omen\OmenKeys.cs" />
     <Compile Include="Devices\UnifiedHID\RoccatTyon.cs" />
+    <Compile Include="Profiles\Fortnite\Control_Fortnite.xaml.cs">
+      <DependentUpon>Control_Fortnite.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Profiles\Fortnite\FortniteApplication.cs" />
+    <Compile Include="Profiles\Fortnite\FortniteProfile.cs" />
+    <Compile Include="Profiles\Fortnite\GameState_Fortnite.cs" />
+    <Compile Include="Profiles\Fortnite\Layers\Control_FortniteBurnLayer.xaml.cs">
+      <DependentUpon>Control_FortniteBurnLayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Profiles\Fortnite\Layers\FortniteBurnLayerHandler.cs" />
     <Compile Include="Profiles\Skype\Control_Skype.xaml.cs">
       <DependentUpon>Control_Skype.xaml</DependentUpon>
     </Compile>
@@ -1621,6 +1631,7 @@
     <Resource Include="Resources\Skype_300x300.png" />
     <Resource Include="Resources\Slime_Rancher.png" />
     <Content Include="RazerSdkWrapper.dll" />
+    <Resource Include="Resources\Postman.png" />
     <Content Include="RGB.NET.Devices.Asus.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1718,6 +1729,14 @@
     <Page Include="Controls\Control_FieldPresenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Profiles\Fortnite\Control_Fortnite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Profiles\Fortnite\Layers\Control_FortniteBurnLayer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Profiles\Skype\Control_Skype.xaml">
       <Generator>MSBuild:Compile</Generator>
