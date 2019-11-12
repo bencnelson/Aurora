@@ -1632,6 +1632,7 @@
     <Resource Include="Resources\Slime_Rancher.png" />
     <Content Include="RazerSdkWrapper.dll" />
     <Resource Include="Resources\Postman.png" />
+    <Resource Include="Resources\Fornite.png" />
     <Content Include="RGB.NET.Devices.Asus.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

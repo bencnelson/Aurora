@@ -16,14 +16,14 @@ namespace Aurora.Profiles.Fortnite {
     public class FortniteApp : Application {
 
         public FortniteApp() : base(new LightEventConfig {
-            Name = "Postman",
-            ID = "Postman",
-            ProcessNames = new[] { "postman.exe" },
+            Name = "Fortnite",
+            ID = "Fortnite",
+            ProcessNames = new[] { "FortniteClient-Win64-Shipping.exe" },
             ProfileType = typeof(FortniteProfile),
             OverviewControlType = typeof(Control_Fortnite),
             GameStateType = typeof(GameState_Fortnite),
             Event = new GameEvent_Generic(),
-            IconURI = "Resources/Postman.png"
+            IconURI = "Resources/Fornite.png"
         }) {
             var extra = new List<LayerHandlerEntry> {
                 new LayerHandlerEntry("FortniteBurnLayer", "Fortnite Burn Layer", typeof(FortniteBurnLayerHandler)),
