@@ -14,7 +14,7 @@ namespace Aurora.Profiles.Fortnite.Layers {
 
     public class FortniteHarvestLayerHandler : LayerHandler<LayerHandlerProperties> {
 
-        private List<FireParticle> particles = new List<FireParticle>();
+        private List<HarvestParticle> particles = new List<HarvestParticle>();
         private Random rnd = new Random();
 
         public FortniteHarvestLayerHandler() {
@@ -28,7 +28,7 @@ namespace Aurora.Profiles.Fortnite.Layers {
         private void CreateFireParticle() {
             float randomX = (float)rnd.NextDouble() * Effects.canvas_width;
             float randomOffset = ((float)rnd.NextDouble() * 15) - 7.5f;
-            particles.Add(new FireParticle() {
+            particles.Add(new HarvestParticle() {
                 mix = new AnimationMix(new[] {
                     new AnimationTrack("particle", 0)
                         .SetFrame(0, new AnimationFilledCircle(randomX, Effects.canvas_height + 5, 5, Color.FromArgb(255, 230, 0)))
