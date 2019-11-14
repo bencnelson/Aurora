@@ -12,17 +12,17 @@ using System.Windows.Controls;
 
 namespace Aurora.Profiles.Fortnite.Layers {
 
-    public class FortniteBurnLayerHandler : LayerHandler<LayerHandlerProperties> {
+    public class FortniteBuildingLayerHandler : LayerHandler<LayerHandlerProperties> {
 
         private List<FireParticle> particles = new List<FireParticle>();
         private Random rnd = new Random();
 
-        public FortniteBurnLayerHandler() {
-            _ID = "FortniteBurnLayer";
+        public FortniteBuildingLayerHandler() {
+            _ID = "FortniteBuildingLayer";
         }
 
         protected override UserControl CreateControl() {
-            return new Control_FortniteBurnLayer();
+            return new Control_FortniteBuildingLayer();
         }
 
         private void CreateFireParticle() {
@@ -39,14 +39,14 @@ namespace Aurora.Profiles.Fortnite.Layers {
         }
 
         public override EffectLayer Render(IGameState gamestate) {
-            EffectLayer layer = new EffectLayer("FortNight Burning Layer");
+            EffectLayer layer = new EffectLayer("Forthite Building Layer");
 
             // Render nothing if invalid gamestate or player isn't on fire
-            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "explosion")
+            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "building")
                 return layer;
 
             // Set the background to red
-            layer.Fill(Color.Red);
+            layer.Fill(Color.Gold);
 
             // Add 3 particles every frame
             for (int i = 0; i < 3; i++)
@@ -65,7 +65,7 @@ namespace Aurora.Profiles.Fortnite.Layers {
         }
     }
 
-    internal class FireParticle {
+    internal class BuildingParticle {
         internal AnimationMix mix;
         internal float time;
     }

@@ -17,8 +17,8 @@ namespace Aurora.Profiles.Fortnite.Layers {
     /// <summary>
     /// Interaction logic for Control_NoOptions.xaml
     /// </summary>
-    public partial class Control_FortniteBurnLayer : UserControl {
-        public Control_FortniteBurnLayer() {
+    public partial class Control_FortnitePoisonLayer : UserControl {
+        public Control_FortnitePoisonLayer() {
             InitializeComponent();
         }
     }

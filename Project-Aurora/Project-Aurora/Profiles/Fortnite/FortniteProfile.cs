@@ -19,7 +19,21 @@ namespace Aurora.Profiles.Fortnite
             base.Reset();
 
             Layers = new ObservableCollection<Layer> {
-                new Layer("Explosion layer", new FortniteBurnLayerHandler()),
+                new Layer("Enemy killed layer", new FortniteEnemyKilledLayerHandler()),
+
+                new Layer("Poison layer", new FortnitePoisonLayerHandler()),
+
+                new Layer("Gliding layer", new FortniteGlidingLayerHandler()),
+
+                new Layer("Building layer", new FortniteBuildingLayerHandler()),
+
+                new Layer("Harvest layer", new FortniteHarvestLayerHandler()),
+
+                new Layer("Player killed layer", new FortnitePlayerKilledLayerHandler()),
+
+                new Layer("Shooting layer", new FortniteShootingLayerHandler()),
+
+                new Layer("Explosion layer", new FortniteExplosionLayerHandler()),
 
                 new Layer("interactive layer", new InteractiveLayerHandler {
                     Properties = new InteractiveLayerHandlerProperties {
