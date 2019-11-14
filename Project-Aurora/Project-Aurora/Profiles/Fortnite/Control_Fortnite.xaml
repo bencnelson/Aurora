@@ -8,32 +8,87 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <TabControl>
-            <TabItem Header="Overview for Osu!">
-                <StackPanel Margin="10">
-                    <CheckBox x:Name="enableOsu" Content="Enable Aurora to provide lighting effects for Osu!" IsChecked="{Binding IsEnabled}" />
-                    <TextBlock Margin="0,8" Text="To support Osu! lighting, a mod is required so that game variables can be sent to Aurora. This mode requires OsuSync." TextWrapping="Wrap" />
-                    <TextBlock Text="This mod is not developed as part of the Aurora project and as such any issues with the mod should not be directed at Aurora but at the GitLab repo for the Aurora GSI Osu mod." TextWrapping="Wrap" />
+            <TabItem Header="Preview">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="28px" />
+                        <RowDefinition Height="28px"/>
+                        <RowDefinition Height="28px"/>
+                        <RowDefinition Height="28px" />
+                        <RowDefinition Height="28px" />
+                        <RowDefinition Height="28px" />
+                        <RowDefinition Height="28px" />
+                        <RowDefinition Height="28px" />
+                        <RowDefinition Height="28px" />
+                        <RowDefinition Height="28px" />
+                        <RowDefinition Height="28px" />
+                        <RowDefinition Height="28px" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="115px" />
+                        <ColumnDefinition Width="200px" />
+                        <ColumnDefinition Width="28px"/>
+                        <ColumnDefinition Width="115px" />
+                        <ColumnDefinition Width="200px" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                    <Separator Margin="16" />
+                    <!-- Player-based variables -->
 
-                    <TextBlock Text="1. First, you must download and setup OsuSync. It can be downloaded from the OsuSync GitHub repo." TextWrapping="Wrap" />
-                    <TextBlock Text="2. Next, in the OsuSync terminal, type the following command:" TextWrapping="Wrap" />
-                    <TextBox Text="plugins install OsuRTDataProvider" Margin="16,2" FontFamily="Consolas,Courier New" IsReadOnly="True" HorizontalAlignment="Left" />
-                    <TextBlock Text="3. It will ask 'Restart to complete install?'. Type the letter 'y' and then hit enter." TextWrapping="Wrap" />
-                    <TextBlock Text="4. Click the 'Install Plugin' button below and point the dialog to your OsuSync executable. This will copy the required Aurora DLL into the plugins directory." TextWrapping="Wrap" />
-                    <TextBlock TextWrapping="Wrap">
-                        <Run Text="4.1. Alternatively, you can fetch the DLL from the" />
-                        <Hyperlink NavigateUri="https://gitlab.com/wibble199/aurora-gsi-osu/tags" RequestNavigate="Hyperlink_RequestNavigate">Aurora GSI OsuSync plugin GitLab repo</Hyperlink>
-                        <Run Text="and manually download it into your plugins directory. Note if you do it this way you will need to right-click the saved DLL, choose 'Properties' then click the 'Unblock' button." />
-                    </TextBlock>
-                    <TextBlock Text="5. Finally, restart OsuSync. You should see that when it starts up it says 'Load AuroraGSI'." />
+                    <Label Content="Effect:" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,23.667,0" />
+                    <ComboBox x:Name="EffectComboBox" Width="200" Grid.ColumnSpan="3" Grid.Column="1" Margin="41.333,0,101.333,0" Grid.Row="2" SelectionChanged="ComboBox_SelectionChanged">
+                        <ComboBoxItem Name="Shooting">shooting</ComboBoxItem>
+                        <ComboBoxItem Name="Explosion">explosion</ComboBoxItem>
+                        <ComboBoxItem Name="PlayerKilled">player killed</ComboBoxItem>
+                        <ComboBoxItem Name="Harvest">Harvest</ComboBoxItem>
+                        <ComboBoxItem Name="Building">Building</ComboBoxItem>
+                        <ComboBoxItem Name="Gliding">Gliding</ComboBoxItem>
+                        <ComboBoxItem Name="Poison">Poison</ComboBoxItem>
+                        <ComboBoxItem Name="EnemyKilled">Enemy killed</ComboBoxItem>
+                        <ComboBoxItem Name="Invalid">Invalid</ComboBoxItem>
+                    </ComboBox>
+                    <Grid Grid.Row="11" Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="28px" />
+                        </Grid.RowDefinitions>
+                    </Grid>
 
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <Button Content="OsuSync GitHub repository" Padding="6,2" Click="OpenOsuSyncRepo_Click" />
-                        <Button Content="Install Plugin" Margin="8,0" Padding="6,2" Click="InstallPlugin_Click" />
-                        <Button Content="Uninstall Plugin" Padding="6,2" Click="UninstallPlugin_Click" />
-                    </StackPanel>
-                </StackPanel>
+                    <!--World-based variables-->
+                    <Grid Grid.Row="2" Grid.RowSpan="2" Grid.Column="4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8px" />
+                            <!-- Padding due to slider -->
+                            <ColumnDefinition Width="1*" />
+                            <!-- End of sunrise -->
+                            <ColumnDefinition Width="1px" />
+                            <ColumnDefinition Width="10*" />
+                            <!-- Day -->
+                            <ColumnDefinition Width="1px" />
+                            <ColumnDefinition Width="3*" />
+                            <!-- Sunset -->
+                            <ColumnDefinition Width="1px" />
+                            <ColumnDefinition Width="8*" />
+                            <!-- Night -->
+                            <ColumnDefinition Width="1px" />
+                            <ColumnDefinition Width="2*" />
+                            <!-- Start of sunrise -->
+                            <ColumnDefinition Width="8px" />
+                            <!-- Padding due to slider -->
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="8px" />
+                            <RowDefinition Height="36px" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>
