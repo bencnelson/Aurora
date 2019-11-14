@@ -38,8 +38,8 @@
 
                     <Label Content="Effect:" Grid.Row="2" HorizontalAlignment="Right" Margin="0,0,23.667,0" />
                     <ComboBox x:Name="EffectComboBox" Width="200" Grid.ColumnSpan="3" Grid.Column="1" Margin="41.333,0,101.333,0" Grid.Row="2" SelectionChanged="ComboBox_SelectionChanged">
-                        <ComboBoxItem Name="Shooting">shooting</ComboBoxItem>
-                        <ComboBoxItem Name="Explosion">explosion</ComboBoxItem>
+                        <ComboBoxItem Name="Shooting">Shooting</ComboBoxItem>
+                        <ComboBoxItem Name="Explosion">Explosion</ComboBoxItem>
                         <ComboBoxItem Name="PlayerKilled">player killed</ComboBoxItem>
                         <ComboBoxItem Name="Harvest">Harvest</ComboBoxItem>
                         <ComboBoxItem Name="Building">Building</ComboBoxItem>
