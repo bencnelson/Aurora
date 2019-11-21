@@ -14,6 +14,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -28,7 +29,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>
@@ -167,6 +167,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="RestSharp, Version=106.6.10.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.10\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="RGB.NET.Brushes, Version=0.1.26.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RGB.NET.Brushes.0.1.26\lib\net45\RGB.NET.Brushes.dll</HintPath>
     </Reference>
@@ -369,6 +372,7 @@
     <Compile Include="Devices\Omen\LightingColor.cs" />
     <Compile Include="Devices\Omen\OmenChassis.cs" />
     <Compile Include="Devices\Omen\OmenKeys.cs" />
+    <Compile Include="Devices\Omen\PhilipseHue.cs" />
     <Compile Include="Devices\UnifiedHID\RoccatTyon.cs" />
     <Compile Include="Profiles\Fortnite\Control_Fortnite.xaml.cs">
       <DependentUpon>Control_Fortnite.xaml</DependentUpon>
@@ -957,6 +961,9 @@
     <Content Include="Profiles\Overlays\SkypeOverlay\Event_SkypeOverlay.cs" />
     <Content Include="Profiles\Overlays\SkypeOverlay\SkypeOverlaySettings.cs" />
     <Content Include="Profiles\Overlays\SkypeOverlay\State_SkypeOverlay.cs" />
+    <None Include="Philips_hue_ligting_config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Profiles\Overlays\VolumeOverlay\Event_VolumeOverlay.cs" />
     <None Include="Profiles\Overlays\VolumeOverlay\VolumeOverlaySettings.cs" />
     <Compile Include="Profiles\Payday 2\Layers\Control_PD2StatesLayer.xaml.cs">

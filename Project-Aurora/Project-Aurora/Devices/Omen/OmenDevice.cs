@@ -16,6 +16,7 @@ namespace Aurora.Devices.Omen
         OmenMouse mouse;
         OmenMousePad mousePad;
         OmenChassis chassis;
+        PhilipseHue hueLighting;
 
         private bool isInitialized = false;
         private readonly string devicename = "OMEN";
@@ -65,6 +66,7 @@ namespace Aurora.Devices.Omen
                     mouse = OmenMouse.GetOmenMouse();
                     mousePad = OmenMousePad.GetOmenMousePad();
                     chassis = OmenChassis.GetOmenChassis();
+                    hueLighting = PhilipseHue.GetPhilipseHue();
 
                     isInitialized = true;
                 }
@@ -171,6 +173,7 @@ namespace Aurora.Devices.Omen
                 }
 
                 UpdateKeyboard(keyColors);
+                UpdateHueLighting(keyColors);
 
             }
             catch (Exception)
@@ -185,6 +188,19 @@ namespace Aurora.Devices.Omen
             {
                 keyboard.SetKeys(keyColors);
                 keyboard_updated = true;
+            }
+        }
+
+        private void UpdateHueLighting(Dictionary<DeviceKeys, Color> keyColors)
+        {
+            if (hueLighting != null)
+            {
+                //Task.Run( () => {
+                //    hueLighting.SetKeys(keyColors);
+                //} );
+
+                hueLighting.SetKeys(keyColors);
+                peripheral_updated = true;
             }
         }
 
