@@ -9,10 +9,53 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Newtonsoft.Json;
 
 namespace Aurora.Profiles.Fortnite.Layers {
 
-    public class FortniteEnemyKilledLayerHandler : LayerHandler<LayerHandlerProperties> {
+    public class FortniteEnemyKilledProperties : LayerHandlerProperties<FortniteEnemyKilledProperties>
+    {
+        public bool? _ShowExplosion { get; set; }
+
+        [JsonIgnore]
+        public bool ShowExplosion { get { return Logic._ShowExplosion ?? _ShowExplosion ?? true; } }
+
+        public FortniteEnemyKilledProperties() : base()
+        {
+        }
+
+        public FortniteEnemyKilledProperties(bool arg = false) : base(arg)
+        {
+        }
+
+        public FortniteEnemyKilledProperties(Color primaryColor) : base()
+        {
+            _PrimaryColor = primaryColor;
+        }
+
+        public override void Default()
+        {
+            base.Default();
+            _PrimaryColor = Color.FromArgb(125, 0, 0, 0);
+            _ShowExplosion = true;
+        }
+    }
+    public class FortniteEnemyKilledLayerHandler : LayerHandler<FortniteEnemyKilledProperties> {
+        private readonly AnimationTrack[] tracks =
+        {
+            new AnimationTrack("Goal Explosion Track 0", 1.0f, 0.0f),
+            new AnimationTrack("Goal Explosion Track 1", 1.0f, 0.5f),
+            new AnimationTrack("Goal Explosion Track 2", 1.0f, 1.0f),
+            new AnimationTrack("Goal Explosion Track 3", 1.0f, 1.5f),
+            new AnimationTrack("Goal Explosion Track 4", 1.0f, 2.0f)
+        };
+
+        private long previoustime = 0;
+        private long currenttime = 0;
+
+        private static float goalEffect_keyframe = 0.0f;
+        private const float goalEffect_animationTime = 3.0f;
+
         public FortniteEnemyKilledLayerHandler() {
             _ID = "FortniteEnemyKilledLayer";
         }
@@ -22,16 +65,60 @@ namespace Aurora.Profiles.Fortnite.Layers {
         }
 
         public override EffectLayer Render(IGameState gamestate) {
-            EffectLayer layer = new EffectLayer("Forthite Enemy Killed Layer");
+            previoustime = currenttime;
+            currenttime = Utils.Time.GetMillisecondsSinceEpoch();
 
-            // Render nothing if invalid gamestate or player isn't on fire
+            EffectLayer layer = new EffectLayer("Forthite Enemy Killed Layer");
+            AnimationMix goal_explosion_mix = new AnimationMix();
+
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "enemy killed")
                 return layer;
 
-            // Set the background to DeepSkyBlue
-            layer.Fill(Color.DeepSkyBlue);
+            this.SetTracks(Properties.PrimaryColor);
+
+            goal_explosion_mix = new AnimationMix(tracks);
+
+            goal_explosion_mix.Draw(layer.GetGraphics(), goalEffect_keyframe);
+            goalEffect_keyframe += (currenttime - previoustime) / 1000.0f;
+
+            if (goalEffect_keyframe >= goalEffect_animationTime)
+            {
+                goalEffect_keyframe = 0;
+                (gamestate as GameState_Fortnite).Game.Status = "";
+            }
 
             return layer;
+        }
+
+        public override void SetApplication(Application profile)
+        {
+            base.SetApplication(profile);
+        }
+
+        private void SetTracks(Color playerColor)
+        {
+            for (int i = 0; i < tracks.Length; i++)
+            {
+                tracks[i].SetFrame(
+                    0.0f,
+                    new AnimationCircle(
+                        (int)(Effects.canvas_width_center * 0.9),
+                        Effects.canvas_height_center,
+                        0,
+                        playerColor,
+                        4)
+                );
+
+                tracks[i].SetFrame(
+                    1.0f,
+                    new AnimationCircle(
+                        (int)(Effects.canvas_width_center * 0.9),
+                        Effects.canvas_height_center,
+                        Effects.canvas_biggest / 2.0f,
+                        playerColor,
+                        4)
+                );
+            }
         }
     }
 }

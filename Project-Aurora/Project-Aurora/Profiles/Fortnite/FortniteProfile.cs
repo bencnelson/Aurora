@@ -19,7 +19,9 @@ namespace Aurora.Profiles.Fortnite
             base.Reset();
 
             Layers = new ObservableCollection<Layer> {
-                new Layer("Enemy killed layer", new FortniteEnemyKilledLayerHandler()),
+                new Layer("Enemy killed layer", new FortniteEnemyKilledLayerHandler(){
+                    Properties = new FortniteEnemyKilledProperties(Color.FromArgb(50, 205, 50)),
+                }),
 
                 //new Layer("Poison layer", new FortnitePoisonLayerHandler()),
                 new Layer("Poison layer", new FortnitePoisonLayerHandler()
@@ -49,7 +51,9 @@ namespace Aurora.Profiles.Fortnite
                     },
                 }),
 
-                new Layer("Player killed layer", new FortnitePlayerKilledLayerHandler()),
+                new Layer("Player killed layer", new FortnitePlayerKilledLayerHandler() {
+                    Properties = new FortnitePlayerKilledProperties(Color.FromArgb(120, 0, 24)),
+                }),
 
                 new Layer("Shooting layer", new FortniteShootingLayerHandler()),
 
