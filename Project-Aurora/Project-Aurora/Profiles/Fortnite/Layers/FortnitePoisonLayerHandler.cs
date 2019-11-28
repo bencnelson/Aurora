@@ -12,14 +12,7 @@ using System.Windows.Controls;
 
 namespace Aurora.Profiles.Fortnite.Layers {
 
-    public class FortnitePoisonLayerHandler : LayerHandler<LayerHandlerProperties> {
-        public FortnitePoisonLayerHandler() {
-            _ID = "FortnitePoisonLayer";
-        }
-
-        protected override UserControl CreateControl() {
-            return new Control_FortnitePoisonLayer();
-        }
+    public class FortnitePoisonLayerHandler : BreathingLayerHandler {
 
         public override EffectLayer Render(IGameState gamestate) {
             EffectLayer layer = new EffectLayer("Forthite Poison Layer");
@@ -28,10 +21,7 @@ namespace Aurora.Profiles.Fortnite.Layers {
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "poison")
                 return layer;
 
-            // Set the background to Purple
-            layer.Fill(Color.Purple);
-
-            return layer;
+            return base.Render(gamestate);
         }
     }
 }

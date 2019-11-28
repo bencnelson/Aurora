@@ -21,13 +21,33 @@ namespace Aurora.Profiles.Fortnite
             Layers = new ObservableCollection<Layer> {
                 new Layer("Enemy killed layer", new FortniteEnemyKilledLayerHandler()),
 
-                new Layer("Poison layer", new FortnitePoisonLayerHandler()),
+                //new Layer("Poison layer", new FortnitePoisonLayerHandler()),
+                new Layer("Poison layer", new FortnitePoisonLayerHandler()
+                {
+                    Properties = new BreathingLayerHandlerProperties()
+                    {
+                        _Sequence = new KeySequence(new FreeFormObject ((float)-50.0, (float)-50.955883, (float)1385.40466, (float)297.2353 )),
+                        _PrimaryColor = Color.FromArgb(113, 15, 255),
+                        _SecondaryColor = Color.FromArgb(255, 0, 0),
+                        _EffectSpeed = 20.0f
+                    },
+                }),
 
                 new Layer("Gliding layer", new FortniteGlidingLayerHandler()),
 
-                new Layer("Building layer", new FortniteBuildingLayerHandler()),
+                new Layer("Building layer", new FortniteBuildingLayerHandler(){
+                    Properties = new AmbilightLayerHandlerProperties()
+                    {
+                        _AmbilightCaptureType = AmbilightCaptureType.Coordinates,
+                    },
+                }),
 
-                new Layer("Harvest layer", new FortniteHarvestLayerHandler()),
+                new Layer("Harvest layer", new FortniteHarvestLayerHandler(){
+                    Properties = new AmbilightLayerHandlerProperties()
+                    {
+                        _AmbilightCaptureType = AmbilightCaptureType.Coordinates,
+                    },
+                }),
 
                 new Layer("Player killed layer", new FortnitePlayerKilledLayerHandler()),
 
