@@ -13,6 +13,17 @@ using System.Windows.Controls;
 namespace Aurora.Profiles.Fortnite.Layers {
 
     public class FortniteShootingLayerHandler : LayerHandler<LayerHandlerProperties> {
+        private static Color[] colors = new Color[] {
+            Color.FromArgb(250, 53, 15),
+            Color.FromArgb(250, 113, 15),
+            Color.FromArgb(250, 172, 15),
+            Color.FromArgb(250, 211, 15),
+        };
+
+        private Random rnd = new Random();
+
+        private ulong frmIndex = 0;
+
         public FortniteShootingLayerHandler() {
             _ID = "FortniteShootingLayer";
         }
@@ -28,8 +39,20 @@ namespace Aurora.Profiles.Fortnite.Layers {
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "shooting")
                 return layer;
 
-            // Set the background to red
-            layer.Fill(Color.Red);
+            int w = layer.GetBitmap().Width;
+            int h = layer.GetBitmap().Height;
+
+            for (int i = 0; i < 10; ++i)
+            {
+                int rNum = rnd.Next();
+                layer.Set((Devices.DeviceKeys)(rNum % 216), colors[rNum % colors.Length]);
+            }
+
+            if(++frmIndex % 90 == 0)
+            {
+                frmIndex = 0;
+                (gamestate as GameState_Fortnite).Game.Status = "";
+            }
 
             return layer;
         }
