@@ -134,6 +134,7 @@ namespace Aurora.Devices.Omen
         public static PhilipseHue GetPhilipseHue()
         {
             var client = new RestClient(@"https://discovery.meethue.com");
+            client.Timeout = 750;
             var request = new RestRequest(Method.GET);
             var response = client.Execute(request);
             string bridgeAddr = "";
@@ -149,7 +150,7 @@ namespace Aurora.Devices.Omen
             
             try
             {
-                string config = System.IO.File.ReadAllText(HueConfigFIleName);
+                string config = System.IO.File.ReadAllText(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + HueConfigFIleName);
                 if (!string.IsNullOrEmpty(config))
                 {
                     var info = JsonConvert.DeserializeObject<HueInfo>(config);
