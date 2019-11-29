@@ -9,64 +9,121 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Newtonsoft.Json;
 
 namespace Aurora.Profiles.Fortnite.Layers {
 
-    public class FortnitePlayerKilledLayerHandler : LayerHandler<LayerHandlerProperties> {
+    public class FortnitePlayerKilledProperties : LayerHandlerProperties<FortnitePlayerKilledProperties>
+    {
+        public bool? _ShowExplosion { get; set; }
 
-        private List<PlayerKilledParticle> particles = new List<PlayerKilledParticle>();
-        private Random rnd = new Random();
+        [JsonIgnore]
+        public bool ShowExplosion { get { return Logic._ShowExplosion ?? _ShowExplosion ?? true; } }
 
-        public FortnitePlayerKilledLayerHandler() {
-            _ID = "FortnitePlayerKilledLayer";
+        public FortnitePlayerKilledProperties() : base()
+        {
         }
 
-        protected override UserControl CreateControl() {
-            return new Control_FortnitePlayerKilledLayer();
+        public FortnitePlayerKilledProperties(bool arg = false) : base(arg)
+        {
         }
 
-        private void CreateFireParticle() {
-            float randomX = (float)rnd.NextDouble() * Effects.canvas_width;
-            float randomOffset = ((float)rnd.NextDouble() * 15) - 7.5f;
-            particles.Add(new PlayerKilledParticle() {
-                mix = new AnimationMix(new[] {
-                    new AnimationTrack("particle", 0)
-                        .SetFrame(0, new AnimationFilledCircle(randomX, Effects.canvas_height + 5, 5, Color.FromArgb(255, 230, 0)))
-                        .SetFrame(1, new AnimationFilledCircle(randomX + randomOffset, -6, 6, Color.FromArgb(0, 255, 230, 0)))
-                }),
-                time = 0
-            });
+        public FortnitePlayerKilledProperties(Color primaryColor) : base()
+        {
+            _PrimaryColor = primaryColor;
         }
 
-        public override EffectLayer Render(IGameState gamestate) {
-            EffectLayer layer = new EffectLayer("Forthite Player Killed Layer");
-
-            // Render nothing if invalid gamestate or player isn't on fire
-            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "player killed")
-                return layer;
-
-            // Set the background to red
-            layer.Fill(Color.White);
-
-            // Add 3 particles every frame
-            for (int i = 0; i < 3; i++)
-                CreateFireParticle();
-
-            // Render all particles
-            foreach (var particle in particles) {
-                particle.mix.Draw(layer.GetGraphics(), particle.time);
-                particle.time += .1f;
-            }
-
-            // Remove any expired particles
-            particles.RemoveAll(particle => particle.time >= 1);
-
-            return layer;
+        public override void Default()
+        {
+            base.Default();
+            _PrimaryColor = Color.FromArgb(125, 0, 0, 0);
+            _ShowExplosion = true;
         }
     }
 
-    internal class PlayerKilledParticle {
-        internal AnimationMix mix;
-        internal float time;
+    public class FortnitePlayerKilledLayerHandler : LayerHandler<FortnitePlayerKilledProperties>
+    {
+        private readonly AnimationTrack[] tracks =
+        {
+            new AnimationTrack("Goal Explosion Track 0", 1.0f, 0.0f),
+            new AnimationTrack("Goal Explosion Track 1", 1.0f, 0.5f),
+            new AnimationTrack("Goal Explosion Track 2", 1.0f, 1.0f),
+            new AnimationTrack("Goal Explosion Track 3", 1.0f, 1.5f),
+            new AnimationTrack("Goal Explosion Track 4", 1.0f, 2.0f)
+        };
+
+        private long previoustime = 0;
+        private long currenttime = 0;
+
+        private static float goalEffect_keyframe = 0.0f;
+        private const float goalEffect_animationTime = 3.0f;
+
+        public FortnitePlayerKilledLayerHandler() : base()
+        {
+            _ID = "FortnitePlayerKilledLayer";
+        }
+
+        public override EffectLayer Render(IGameState gamestate)
+        {
+            previoustime = currenttime;
+            currenttime = Utils.Time.GetMillisecondsSinceEpoch();
+
+            EffectLayer layer = new EffectLayer("Fortnite Player Killed Layer");
+            AnimationMix goal_explosion_mix = new AnimationMix();
+
+            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "player killed")
+                return layer;
+
+            this.SetTracks(Properties.PrimaryColor);
+
+            goal_explosion_mix = new AnimationMix(tracks);
+
+            goal_explosion_mix.Draw(layer.GetGraphics(), goalEffect_keyframe);
+            goalEffect_keyframe += (currenttime - previoustime) / 1000.0f;
+
+            if (goalEffect_keyframe >= goalEffect_animationTime)
+            {
+                goalEffect_keyframe = 0;
+                (gamestate as GameState_Fortnite).Game.Status = "";
+            }
+
+            return layer;
+        }
+
+        public override void SetApplication(Application profile)
+        {
+            base.SetApplication(profile);
+        }
+
+        protected override UserControl CreateControl()
+        {
+            return new Control_FortnitePlayerKilledLayer();
+        }
+
+        private void SetTracks(Color playerColor)
+        {
+            for (int i = 0; i < tracks.Length; i++)
+            {
+                tracks[i].SetFrame(
+                    0.0f,
+                    new AnimationCircle(
+                        (int)(Effects.canvas_width_center * 0.9),
+                        Effects.canvas_height_center,
+                        0,
+                        playerColor,
+                        4)
+                );
+
+                tracks[i].SetFrame(
+                    1.0f,
+                    new AnimationCircle(
+                        (int)(Effects.canvas_width_center * 0.9),
+                        Effects.canvas_height_center,
+                        Effects.canvas_biggest / 2.0f,
+                        playerColor,
+                        4)
+                );
+            }
+        }
     }
 }

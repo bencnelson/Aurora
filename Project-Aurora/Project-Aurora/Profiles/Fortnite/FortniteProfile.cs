@@ -19,17 +19,41 @@ namespace Aurora.Profiles.Fortnite
             base.Reset();
 
             Layers = new ObservableCollection<Layer> {
-                new Layer("Enemy killed layer", new FortniteEnemyKilledLayerHandler()),
+                new Layer("Enemy killed layer", new FortniteEnemyKilledLayerHandler(){
+                    Properties = new FortniteEnemyKilledProperties(Color.FromArgb(50, 205, 50)),
+                }),
 
-                new Layer("Poison layer", new FortnitePoisonLayerHandler()),
+                //new Layer("Poison layer", new FortnitePoisonLayerHandler()),
+                new Layer("Poison layer", new FortnitePoisonLayerHandler()
+                {
+                    Properties = new BreathingLayerHandlerProperties()
+                    {
+                        _Sequence = new KeySequence(new FreeFormObject ((float)-50.0, (float)-50.955883, (float)1385.40466, (float)297.2353 )),
+                        _PrimaryColor = Color.FromArgb(113, 15, 255),
+                        _SecondaryColor = Color.FromArgb(255, 0, 0),
+                        _EffectSpeed = 20.0f
+                    },
+                }),
 
                 new Layer("Gliding layer", new FortniteGlidingLayerHandler()),
 
-                new Layer("Building layer", new FortniteBuildingLayerHandler()),
+                new Layer("Building layer", new FortniteBuildingLayerHandler(){
+                    Properties = new AmbilightLayerHandlerProperties()
+                    {
+                        _AmbilightCaptureType = AmbilightCaptureType.Coordinates,
+                    },
+                }),
 
-                new Layer("Harvest layer", new FortniteHarvestLayerHandler()),
+                new Layer("Harvest layer", new FortniteHarvestLayerHandler(){
+                    Properties = new AmbilightLayerHandlerProperties()
+                    {
+                        _AmbilightCaptureType = AmbilightCaptureType.Coordinates,
+                    },
+                }),
 
-                new Layer("Player killed layer", new FortnitePlayerKilledLayerHandler()),
+                new Layer("Player killed layer", new FortnitePlayerKilledLayerHandler() {
+                    Properties = new FortnitePlayerKilledProperties(Color.FromArgb(120, 0, 24)),
+                }),
 
                 new Layer("Shooting layer", new FortniteShootingLayerHandler()),
 
@@ -224,7 +248,7 @@ namespace Aurora.Profiles.Fortnite
                     }
                 }),
 
-                new Layer("building", new SolidColorLayerHandler {
+                new Layer("movement", new SolidColorLayerHandler {
                     Properties = new LayerHandlerProperties {
                         _PrimaryColor = Color.White,
                         _Sequence = new KeySequence(new[] {

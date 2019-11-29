@@ -9,13 +9,52 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using Newtonsoft.Json;
 
 namespace Aurora.Profiles.Fortnite.Layers {
 
-    public class FortniteEnemyKilledLayerHandler : LayerHandler<LayerHandlerProperties> {
+    public class FortniteEnemyKilledProperties : LayerHandlerProperties<FortniteEnemyKilledProperties>
+    {
+        public bool? _ShowExplosion { get; set; }
 
-        private List<EnemyKilledParticle> particles = new List<EnemyKilledParticle>();
-        private Random rnd = new Random();
+        [JsonIgnore]
+        public bool ShowExplosion { get { return Logic._ShowExplosion ?? _ShowExplosion ?? true; } }
+
+        public FortniteEnemyKilledProperties() : base()
+        {
+        }
+
+        public FortniteEnemyKilledProperties(bool arg = false) : base(arg)
+        {
+        }
+
+        public FortniteEnemyKilledProperties(Color primaryColor) : base()
+        {
+            _PrimaryColor = primaryColor;
+        }
+
+        public override void Default()
+        {
+            base.Default();
+            _PrimaryColor = Color.FromArgb(125, 0, 0, 0);
+            _ShowExplosion = true;
+        }
+    }
+    public class FortniteEnemyKilledLayerHandler : LayerHandler<FortniteEnemyKilledProperties> {
+        private readonly AnimationTrack[] tracks =
+        {
+            new AnimationTrack("Goal Explosion Track 0", 1.0f, 0.0f),
+            new AnimationTrack("Goal Explosion Track 1", 1.0f, 0.5f),
+            new AnimationTrack("Goal Explosion Track 2", 1.0f, 1.0f),
+            new AnimationTrack("Goal Explosion Track 3", 1.0f, 1.5f),
+            new AnimationTrack("Goal Explosion Track 4", 1.0f, 2.0f)
+        };
+
+        private long previoustime = 0;
+        private long currenttime = 0;
+
+        private static float goalEffect_keyframe = 0.0f;
+        private const float goalEffect_animationTime = 3.0f;
 
         public FortniteEnemyKilledLayerHandler() {
             _ID = "FortniteEnemyKilledLayer";
@@ -25,48 +64,61 @@ namespace Aurora.Profiles.Fortnite.Layers {
             return new Control_FortniteEnemyKilledLayer();
         }
 
-        private void CreateFireParticle() {
-            float randomX = (float)rnd.NextDouble() * Effects.canvas_width;
-            float randomOffset = ((float)rnd.NextDouble() * 15) - 7.5f;
-            particles.Add(new EnemyKilledParticle() {
-                mix = new AnimationMix(new[] {
-                    new AnimationTrack("particle", 0)
-                        .SetFrame(0, new AnimationFilledCircle(randomX, Effects.canvas_height + 5, 5, Color.FromArgb(255, 230, 0)))
-                        .SetFrame(1, new AnimationFilledCircle(randomX + randomOffset, -6, 6, Color.FromArgb(0, 255, 230, 0)))
-                }),
-                time = 0
-            });
-        }
-
         public override EffectLayer Render(IGameState gamestate) {
-            EffectLayer layer = new EffectLayer("Forthite Enemy Killed Layer");
+            previoustime = currenttime;
+            currenttime = Utils.Time.GetMillisecondsSinceEpoch();
 
-            // Render nothing if invalid gamestate or player isn't on fire
+            EffectLayer layer = new EffectLayer("Forthite Enemy Killed Layer");
+            AnimationMix goal_explosion_mix = new AnimationMix();
+
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "enemy killed")
                 return layer;
 
-            // Set the background to red
-            layer.Fill(Color.Purple);
+            this.SetTracks(Properties.PrimaryColor);
 
-            // Add 3 particles every frame
-            for (int i = 0; i < 3; i++)
-                CreateFireParticle();
+            goal_explosion_mix = new AnimationMix(tracks);
 
-            // Render all particles
-            foreach (var particle in particles) {
-                particle.mix.Draw(layer.GetGraphics(), particle.time);
-                particle.time += .1f;
+            goal_explosion_mix.Draw(layer.GetGraphics(), goalEffect_keyframe);
+            goalEffect_keyframe += (currenttime - previoustime) / 1000.0f;
+
+            if (goalEffect_keyframe >= goalEffect_animationTime)
+            {
+                goalEffect_keyframe = 0;
+                (gamestate as GameState_Fortnite).Game.Status = "";
             }
-
-            // Remove any expired particles
-            particles.RemoveAll(particle => particle.time >= 1);
 
             return layer;
         }
-    }
 
-    internal class EnemyKilledParticle {
-        internal AnimationMix mix;
-        internal float time;
+        public override void SetApplication(Application profile)
+        {
+            base.SetApplication(profile);
+        }
+
+        private void SetTracks(Color playerColor)
+        {
+            for (int i = 0; i < tracks.Length; i++)
+            {
+                tracks[i].SetFrame(
+                    0.0f,
+                    new AnimationCircle(
+                        (int)(Effects.canvas_width_center * 0.9),
+                        Effects.canvas_height_center,
+                        0,
+                        playerColor,
+                        4)
+                );
+
+                tracks[i].SetFrame(
+                    1.0f,
+                    new AnimationCircle(
+                        (int)(Effects.canvas_width_center * 0.9),
+                        Effects.canvas_height_center,
+                        Effects.canvas_biggest / 2.0f,
+                        playerColor,
+                        4)
+                );
+            }
+        }
     }
 }

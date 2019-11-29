@@ -9,34 +9,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Runtime.InteropServices;
 
 namespace Aurora.Profiles.Fortnite.Layers {
 
-    public class FortniteHarvestLayerHandler : LayerHandler<LayerHandlerProperties> {
+    public class FortniteHarvestLayerHandler : AmbilightLayerHandler {
 
-        private List<HarvestParticle> particles = new List<HarvestParticle>();
-        private Random rnd = new Random();
-
-        public FortniteHarvestLayerHandler() {
-            _ID = "FortniteHarvestLayer";
+        public struct Rect
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
         }
 
-        protected override UserControl CreateControl() {
-            return new Control_FortniteHarvestLayer();
-        }
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern IntPtr GetForegroundWindow();
 
-        private void CreateFireParticle() {
-            float randomX = (float)rnd.NextDouble() * Effects.canvas_width;
-            float randomOffset = ((float)rnd.NextDouble() * 15) - 7.5f;
-            particles.Add(new HarvestParticle() {
-                mix = new AnimationMix(new[] {
-                    new AnimationTrack("particle", 0)
-                        .SetFrame(0, new AnimationFilledCircle(randomX, Effects.canvas_height + 5, 5, Color.FromArgb(255, 230, 0)))
-                        .SetFrame(1, new AnimationFilledCircle(randomX + randomOffset, -6, 6, Color.FromArgb(0, 255, 230, 0)))
-                }),
-                time = 0
-            });
-        }
+        [DllImport("user32.dll")]
+        public static extern bool GetWindowRect(IntPtr hwnd, out Rect rectangle);
 
         public override EffectLayer Render(IGameState gamestate) {
             EffectLayer layer = new EffectLayer("Forthite Harvest Layer");
@@ -45,28 +36,17 @@ namespace Aurora.Profiles.Fortnite.Layers {
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "harvest")
                 return layer;
 
-            // Set the background to red
-            layer.Fill(Color.Green);
+            var hFgWnd = GetForegroundWindow();
+            if (hFgWnd == IntPtr.Zero) return layer;
 
-            // Add 3 particles every frame
-            for (int i = 0; i < 3; i++)
-                CreateFireParticle();
+            Rect wndRect = new Rect();
+            if (!GetWindowRect(hFgWnd, out wndRect)) return layer;
 
-            // Render all particles
-            foreach (var particle in particles) {
-                particle.mix.Draw(layer.GetGraphics(), particle.time);
-                particle.time += .1f;
-            }
+            int w = wndRect.Right - wndRect.Left;
+            int h = wndRect.Bottom - wndRect.Top;
+            Properties._Coordinates = new Rectangle ( wndRect.Left + Convert.ToInt32(w * 0.45 + 0.50), wndRect.Top + Convert.ToInt32(h * 0.45 + 0.50), Convert.ToInt32(w * 0.1 + 0.5), Convert.ToInt32(h * 0.1 + 0.5));
 
-            // Remove any expired particles
-            particles.RemoveAll(particle => particle.time >= 1);
-
-            return layer;
+            return base.Render(gamestate);
         }
-    }
-
-    internal class HarvestParticle {
-        internal AnimationMix mix;
-        internal float time;
     }
 }

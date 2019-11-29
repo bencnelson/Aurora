@@ -13,9 +13,16 @@ using System.Windows.Controls;
 namespace Aurora.Profiles.Fortnite.Layers {
 
     public class FortniteShootingLayerHandler : LayerHandler<LayerHandlerProperties> {
+        private static Color[] colors = new Color[] {
+            Color.FromArgb(250, 53, 15),
+            Color.FromArgb(250, 113, 15),
+            Color.FromArgb(250, 172, 15),
+            Color.FromArgb(250, 211, 15),
+        };
 
-        private List<ShootingParticle> particles = new List<ShootingParticle>();
         private Random rnd = new Random();
+
+        private ulong frmIndex = 0;
 
         public FortniteShootingLayerHandler() {
             _ID = "FortniteShootingLayer";
@@ -25,19 +32,6 @@ namespace Aurora.Profiles.Fortnite.Layers {
             return new Control_FortniteShootingLayer();
         }
 
-        private void CreateFireParticle() {
-            float randomX = (float)rnd.NextDouble() * Effects.canvas_width;
-            float randomOffset = ((float)rnd.NextDouble() * 15) - 7.5f;
-            particles.Add(new ShootingParticle() {
-                mix = new AnimationMix(new[] {
-                    new AnimationTrack("particle", 0)
-                        .SetFrame(0, new AnimationFilledCircle(randomX, Effects.canvas_height + 5, 5, Color.FromArgb(255, 230, 0)))
-                        .SetFrame(1, new AnimationFilledCircle(randomX + randomOffset, -6, 6, Color.FromArgb(0, 255, 230, 0)))
-                }),
-                time = 0
-            });
-        }
-
         public override EffectLayer Render(IGameState gamestate) {
             EffectLayer layer = new EffectLayer("Forthite Shooting Layer");
 
@@ -45,28 +39,22 @@ namespace Aurora.Profiles.Fortnite.Layers {
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "shooting")
                 return layer;
 
-            // Set the background to red
-            layer.Fill(Color.Blue);
+            int w = layer.GetBitmap().Width;
+            int h = layer.GetBitmap().Height;
 
-            // Add 3 particles every frame
-            for (int i = 0; i < 3; i++)
-                CreateFireParticle();
-
-            // Render all particles
-            foreach (var particle in particles) {
-                particle.mix.Draw(layer.GetGraphics(), particle.time);
-                particle.time += .1f;
+            for (int i = 0; i < 10; ++i)
+            {
+                int rNum = rnd.Next();
+                layer.Set((Devices.DeviceKeys)(rNum % 216), colors[rNum % colors.Length]);
             }
 
-            // Remove any expired particles
-            particles.RemoveAll(particle => particle.time >= 1);
+            if(++frmIndex % 90 == 0)
+            {
+                frmIndex = 0;
+                (gamestate as GameState_Fortnite).Game.Status = "";
+            }
 
             return layer;
         }
-    }
-
-    internal class ShootingParticle {
-        internal AnimationMix mix;
-        internal float time;
     }
 }
