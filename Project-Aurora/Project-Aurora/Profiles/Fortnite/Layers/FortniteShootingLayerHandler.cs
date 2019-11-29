@@ -22,8 +22,6 @@ namespace Aurora.Profiles.Fortnite.Layers {
 
         private Random rnd = new Random();
 
-        private ulong frmIndex = 0;
-
         public FortniteShootingLayerHandler() {
             _ID = "FortniteShootingLayer";
         }
@@ -49,12 +47,6 @@ namespace Aurora.Profiles.Fortnite.Layers {
             }
 
             layer.Set(Devices.DeviceKeys.SPACE, colors[rnd.Next() % colors.Length]);
-
-            if (++frmIndex % 90 == 0)
-            {
-                frmIndex = 0;
-                (gamestate as GameState_Fortnite).Game.Status = "";
-            }
 
             return layer;
         }

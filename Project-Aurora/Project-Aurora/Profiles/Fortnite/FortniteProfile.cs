@@ -31,7 +31,7 @@ namespace Aurora.Profiles.Fortnite
                         _Sequence = new KeySequence(new FreeFormObject ((float)-50.0, (float)-50.955883, (float)1385.40466, (float)297.2353 )),
                         _PrimaryColor = Color.FromArgb(113, 15, 255),
                         _SecondaryColor = Color.FromArgb(255, 0, 0),
-                        _EffectSpeed = 20.0f
+                        _EffectSpeed = 10.0f
                     },
                 }),
 
