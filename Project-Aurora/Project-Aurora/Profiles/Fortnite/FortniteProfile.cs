@@ -248,7 +248,7 @@ namespace Aurora.Profiles.Fortnite
                     }
                 }),
 
-                new Layer("building", new SolidColorLayerHandler {
+                new Layer("movement", new SolidColorLayerHandler {
                     Properties = new LayerHandlerProperties {
                         _PrimaryColor = Color.White,
                         _Sequence = new KeySequence(new[] {
