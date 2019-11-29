@@ -213,9 +213,9 @@ namespace Aurora.Devices.Omen
 
         public void SetKeys(Dictionary<DeviceKeys, Color> keyColors)
         {
-            if (keyColors.ContainsKey(DeviceKeys.ENTER))
+            if (keyColors.ContainsKey(DeviceKeys.SPACE))
             {
-                SetLighting(keyColors[DeviceKeys.ENTER]);
+                SetLighting(keyColors[DeviceKeys.SPACE]);
             }
         }
     }

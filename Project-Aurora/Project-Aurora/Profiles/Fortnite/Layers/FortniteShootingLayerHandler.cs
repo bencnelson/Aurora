@@ -42,13 +42,15 @@ namespace Aurora.Profiles.Fortnite.Layers {
             int w = layer.GetBitmap().Width;
             int h = layer.GetBitmap().Height;
 
-            for (int i = 0; i < 10; ++i)
+            for (int i = 0; i < 15; ++i)
             {
                 int rNum = rnd.Next();
                 layer.Set((Devices.DeviceKeys)(rNum % 216), colors[rNum % colors.Length]);
             }
 
-            if(++frmIndex % 90 == 0)
+            layer.Set(Devices.DeviceKeys.SPACE, colors[rnd.Next() % colors.Length]);
+
+            if (++frmIndex % 90 == 0)
             {
                 frmIndex = 0;
                 (gamestate as GameState_Fortnite).Game.Status = "";
