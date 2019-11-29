@@ -84,7 +84,6 @@ namespace Aurora.Profiles.Fortnite.Layers {
             if (goalEffect_keyframe >= goalEffect_animationTime)
             {
                 goalEffect_keyframe = 0;
-                (gamestate as GameState_Fortnite).Game.Status = "";
             }
 
             return layer;
