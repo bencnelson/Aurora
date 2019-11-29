@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using RestSharp;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 
 namespace Aurora.Devices.Omen
 {
@@ -159,7 +160,12 @@ namespace Aurora.Devices.Omen
                             info.HueBridgeAddress = bridgeAddr;
                         }
 
-                        return new PhilipseHue(info);
+                        Ping pingSender = new Ping();
+                        var pingReply = pingSender.Send(info.HueBridgeAddress, 50);
+                        if(pingReply.Status == IPStatus.Success)
+                        {
+                            return new PhilipseHue(info);
+                        }
                     }
                 }
             }
