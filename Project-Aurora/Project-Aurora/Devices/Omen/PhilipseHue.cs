@@ -133,44 +133,38 @@ namespace Aurora.Devices.Omen
 
         public static PhilipseHue GetPhilipseHue()
         {
-            var client = new RestClient(@"https://discovery.meethue.com");
-            client.Timeout = 750;
-            var request = new RestRequest(Method.GET);
-            var response = client.Execute(request);
-            string bridgeAddr = "";
-            if(response.ErrorException == null)
-            {
-                Global.logger.Info(response.Content);
-                BridgetInfo[] bridgeInfos = JsonConvert.DeserializeObject<BridgetInfo[]>(response.Content);
-                if(bridgeInfos.Length > 0)
-                {
-                    bridgeAddr = bridgeInfos[0].internalipaddress;
-                }
-            }
-            
+            HueInfo info;
             try
             {
                 string config = System.IO.File.ReadAllText(System.AppDomain.CurrentDomain.SetupInformation.ApplicationBase + HueConfigFIleName);
                 if (!string.IsNullOrEmpty(config))
                 {
-                    var info = JsonConvert.DeserializeObject<HueInfo>(config);
-                    if (info != null)
-                    {
-                        if(!string.IsNullOrEmpty(bridgeAddr))
-                        {
-                            info.HueBridgeAddress = bridgeAddr;
-                        }
+                    info = JsonConvert.DeserializeObject<HueInfo>(config);
+                    if (info == null) return null;
 
-                        Ping pingSender = new Ping();
-                        var pingReply = pingSender.Send(info.HueBridgeAddress, 50);
-                        if(pingReply.Status == IPStatus.Success)
+                    var client = new RestClient(@"https://discovery.meethue.com");
+                    client.Timeout = 750;
+                    var request = new RestRequest(Method.GET);
+                    var response = client.Execute(request);
+                    if (response.ErrorException == null)
+                    {
+                        Global.logger.Info(response.Content);
+                        BridgetInfo[] bridgeInfos = JsonConvert.DeserializeObject<BridgetInfo[]>(response.Content);
+                        if (bridgeInfos.Length > 0)
                         {
-                            return new PhilipseHue(info);
+                            info.HueBridgeAddress = bridgeInfos[0].internalipaddress;
                         }
+                    }
+
+                    Ping pingSender = new Ping();
+                    var pingReply = pingSender.Send(info.HueBridgeAddress, 120);
+                    if (pingReply.Status == IPStatus.Success)
+                    {
+                        return new PhilipseHue(info);
                     }
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Global.logger.Error("Create philips lighting fail. Message: " + e);
             }
