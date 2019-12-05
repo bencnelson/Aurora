@@ -54,6 +54,8 @@ namespace Aurora.Profiles.Fortnite.Layers {
 
         private long previoustime = 0;
         private long currenttime = 0;
+        private ulong frameIdx = 0;
+        private EffectLayer savedLayer = null;
 
         private static float goalEffect_keyframe = 0.0f;
         private const float goalEffect_animationTime = 3.0f;
@@ -74,6 +76,10 @@ namespace Aurora.Profiles.Fortnite.Layers {
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "player killed")
                 return layer;
 
+            if (frameIdx++ % 2 != 0 && savedLayer != null) return savedLayer;
+
+            layer.Fill(Color.Black);
+
             this.SetTracks(Properties.PrimaryColor);
 
             goal_explosion_mix = new AnimationMix(tracks);
@@ -85,6 +91,8 @@ namespace Aurora.Profiles.Fortnite.Layers {
             {
                 goalEffect_keyframe = 0;
             }
+
+            savedLayer = new EffectLayer(layer);
 
             return layer;
         }

@@ -55,6 +55,8 @@ namespace Aurora.Profiles.Fortnite.Layers {
 
         private static float goalEffect_keyframe = 0.0f;
         private const float goalEffect_animationTime = 3.0f;
+        private ulong frameIdx = 0;
+        private EffectLayer savedLayer = null;
 
         public FortniteEnemyKilledLayerHandler() {
             _ID = "FortniteEnemyKilledLayer";
@@ -74,6 +76,10 @@ namespace Aurora.Profiles.Fortnite.Layers {
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "enemy killed")
                 return layer;
 
+            if (frameIdx++ % 2 != 0 && savedLayer != null) return savedLayer;
+
+            layer.Fill(Color.Black);
+
             this.SetTracks(Properties.PrimaryColor);
 
             goal_explosion_mix = new AnimationMix(tracks);
@@ -85,6 +91,8 @@ namespace Aurora.Profiles.Fortnite.Layers {
             {
                 goalEffect_keyframe = 0;
             }
+
+            savedLayer = new EffectLayer(layer);
 
             return layer;
         }

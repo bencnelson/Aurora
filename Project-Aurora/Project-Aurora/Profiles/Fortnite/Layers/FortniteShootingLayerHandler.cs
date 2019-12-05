@@ -37,10 +37,12 @@ namespace Aurora.Profiles.Fortnite.Layers {
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "shooting")
                 return layer;
 
+            layer.Fill(Color.Black);
+
             int w = layer.GetBitmap().Width;
             int h = layer.GetBitmap().Height;
 
-            for (int i = 0; i < 15; ++i)
+            for (int i = 0; i < 10; ++i)
             {
                 int rNum = rnd.Next();
                 layer.Set((Devices.DeviceKeys)(rNum % 216), colors[rNum % colors.Length]);
