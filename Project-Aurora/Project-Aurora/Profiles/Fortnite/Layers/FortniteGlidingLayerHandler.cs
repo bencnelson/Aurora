@@ -74,6 +74,8 @@ namespace Aurora.Profiles.Fortnite.Layers {
             if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "gliding")
                 return layer;
 
+            layer.Fill(Color.Black);
+
             // Add more droplets based on the intensity
             float strength = 1.0f;
             if (strength > 0)

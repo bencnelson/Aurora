@@ -23,7 +23,6 @@ namespace Aurora.Profiles.Fortnite
                     Properties = new FortniteEnemyKilledProperties(Color.FromArgb(50, 205, 50)),
                 }),
 
-                //new Layer("Poison layer", new FortnitePoisonLayerHandler()),
                 new Layer("Poison layer", new FortnitePoisonLayerHandler()
                 {
                     Properties = new BreathingLayerHandlerProperties()
@@ -31,7 +30,7 @@ namespace Aurora.Profiles.Fortnite
                         _Sequence = new KeySequence(new FreeFormObject ((float)-50.0, (float)-50.955883, (float)1385.40466, (float)297.2353 )),
                         _PrimaryColor = Color.FromArgb(113, 15, 255),
                         _SecondaryColor = Color.FromArgb(255, 0, 0),
-                        _EffectSpeed = 10.0f
+                        _EffectSpeed = 2.0f
                     },
                 }),
 
@@ -52,7 +51,7 @@ namespace Aurora.Profiles.Fortnite
                 }),
 
                 new Layer("Player killed layer", new FortnitePlayerKilledLayerHandler() {
-                    Properties = new FortnitePlayerKilledProperties(Color.FromArgb(120, 0, 24)),
+                    Properties = new FortnitePlayerKilledProperties(Color.Red),
                 }),
 
                 new Layer("Shooting layer", new FortniteShootingLayerHandler()),
