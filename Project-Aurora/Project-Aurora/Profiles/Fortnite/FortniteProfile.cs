@@ -198,12 +198,12 @@ namespace Aurora.Profiles.Fortnite
                     }
                 }),
 
-                new Layer("comms", new SolidColorLayerHandler {
-                    Properties = new LayerHandlerProperties {
-                        _PrimaryColor = Color.FromArgb(0, 166, 33),
-                        _Sequence = new KeySequence(new[] { (DeviceKeys)44, (DeviceKeys)72 })
-                    }
-                }),
+                //new Layer("comms", new SolidColorLayerHandler {
+                //    Properties = new LayerHandlerProperties {
+                //        _PrimaryColor = Color.FromArgb(0, 166, 33),
+                //        _Sequence = new KeySequence(new[] { (DeviceKeys)44, (DeviceKeys)72 }),
+                //    }
+                //}),
 
                 new Layer("E", new SolidColorLayerHandler {
                     Properties = new LayerHandlerProperties {
@@ -225,12 +225,12 @@ namespace Aurora.Profiles.Fortnite
                     }
                 }),
 
-                new Layer("map", new SolidColorLayerHandler {
-                    Properties = new LayerHandlerProperties {
-                        _PrimaryColor = Color.FromArgb(215, 252, 6),
-                        _Sequence = new KeySequence(new[] { (DeviceKeys)38, (DeviceKeys)84 })
-                    }
-                }),
+                //new Layer("map", new SolidColorLayerHandler {
+                //    Properties = new LayerHandlerProperties {
+                //        _PrimaryColor = Color.FromArgb(215, 252, 6),
+                //        _Sequence = new KeySequence(new[] { (DeviceKeys)38, (DeviceKeys)84 }),
+                //    }
+                //}),
 
                 new Layer("building", new SolidColorLayerHandler {
                     Properties = new LayerHandlerProperties {
@@ -261,14 +261,12 @@ namespace Aurora.Profiles.Fortnite
                     }
                 }),
 
-                new Layer("background", new BreathingLayerHandler()
+                new Layer("background", new SolidColorLayerHandler()
                 {
-                    Properties = new BreathingLayerHandlerProperties()
+                    Properties = new LayerHandlerProperties()
                     {
                         _Sequence = new KeySequence(new FreeFormObject ((float)-50.0, (float)-50.955883, (float)1385.40466, (float)297.2353 )),
-                        _PrimaryColor = Color.FromArgb(152, 0, 255),
-                        _SecondaryColor = Color.FromArgb(10, 0, 25),
-                        _EffectSpeed = 1.0f
+                        _PrimaryColor = Color.FromArgb(152, 0, 255)
                     },
 
                 })
