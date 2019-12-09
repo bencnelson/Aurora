@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 namespace Aurora.Profiles.Fortnite.Layers {
 
     public class FortniteHarvestLayerHandler : AmbilightLayerHandler {
+        public const string STATUS = "harvest";
 
         public struct Rect
         {
@@ -30,10 +31,10 @@ namespace Aurora.Profiles.Fortnite.Layers {
         public static extern bool GetWindowRect(IntPtr hwnd, out Rect rectangle);
 
         public override EffectLayer Render(IGameState gamestate) {
-            EffectLayer layer = new EffectLayer("Forthite Harvest Layer");
+            EffectLayer layer = new EffectLayer($"Fortnite {STATUS} Layer");
 
             // Render nothing if invalid gamestate or player isn't on fire
-            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "harvest")
+            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != STATUS)
                 return layer;
 
             var hFgWnd = GetForegroundWindow();

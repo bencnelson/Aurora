@@ -13,6 +13,8 @@ using System.Windows.Controls;
 namespace Aurora.Profiles.Fortnite.Layers {
 
     public class FortniteShootingLayerHandler : LayerHandler<LayerHandlerProperties> {
+        public const string STATUS = "shooting";
+
         private static Color[] colors = new Color[] {
             Color.FromArgb(250, 53, 15),
             Color.FromArgb(250, 113, 15),
@@ -21,6 +23,9 @@ namespace Aurora.Profiles.Fortnite.Layers {
         };
 
         private Random rnd = new Random();
+
+        private uint nframeDelay = ANIMATION_DUARATION + 1;
+        const uint ANIMATION_DUARATION = 7; //frames
 
         public FortniteShootingLayerHandler() {
             _ID = "FortniteShootingLayer";
@@ -31,11 +36,19 @@ namespace Aurora.Profiles.Fortnite.Layers {
         }
 
         public override EffectLayer Render(IGameState gamestate) {
-            EffectLayer layer = new EffectLayer("Forthite Shooting Layer");
+            EffectLayer layer = new EffectLayer($"Fortnite {STATUS} Layer");
 
-            // Render nothing if invalid gamestate or player isn't on fire
-            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "shooting")
+            if (!(gamestate is GameState_Fortnite))
                 return layer;
+
+            if ((gamestate as GameState_Fortnite).Game.Status == STATUS)
+            {
+                nframeDelay = 0;
+            }
+            else if (nframeDelay > ANIMATION_DUARATION)
+            {
+                return layer;
+            }
 
             layer.Fill(Color.Black);
 
@@ -49,6 +62,8 @@ namespace Aurora.Profiles.Fortnite.Layers {
             }
 
             layer.Set(Devices.DeviceKeys.SPACE, colors[rnd.Next() % colors.Length]);
+
+            nframeDelay++;
 
             return layer;
         }

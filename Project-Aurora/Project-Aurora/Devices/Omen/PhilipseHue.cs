@@ -204,7 +204,7 @@ namespace Aurora.Devices.Omen
                 {
                     on = true,
                     sat = (byte)(hsl.S * 254 + 0.5),
-                    bri = (byte)(hsl.L * 254 + 0.5),
+                    bri = ((byte)(hsl.L * 254 + 0.5)) >> 1,
                     hue = (UInt16)(hsl.H * 65535.0 / 360.0 + 0.5)
                 });
 

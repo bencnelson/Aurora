@@ -13,12 +13,13 @@ using System.Windows.Controls;
 namespace Aurora.Profiles.Fortnite.Layers {
 
     public class FortnitePoisonLayerHandler : BreathingLayerHandler {
+        public const string STATUS = "poison";
 
         public override EffectLayer Render(IGameState gamestate) {
-            EffectLayer layer = new EffectLayer("Forthite Poison Layer");
+            EffectLayer layer = new EffectLayer($"Fortnite {STATUS} Layer");
 
             // Render nothing if invalid gamestate or player isn't on fire
-            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "poison")
+            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != STATUS)
                 return layer;
 
             return base.Render(gamestate);

@@ -37,6 +37,8 @@ namespace Aurora.Profiles.Fortnite.Layers {
 
     public class FortniteGlidingLayerHandler : LayerHandler<FortniteGlidingLayerHandlerProperties>
     {
+        public const string STATUS = "gliding";
+
         private List<Droplet> raindrops = new List<Droplet>();
         private Random rnd = new Random();
         private int frame = 0;
@@ -67,11 +69,9 @@ namespace Aurora.Profiles.Fortnite.Layers {
 
         public override EffectLayer Render(IGameState gamestate)
         {
-            EffectLayer layer = new EffectLayer("FortniteG Rain Layer");
+            EffectLayer layer = new EffectLayer($"Fortnite {STATUS} Layer");
 
-            if (!(gamestate is GameState_Fortnite)) return layer;
-
-            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "gliding")
+            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != STATUS)
                 return layer;
 
             layer.Fill(Color.Black);

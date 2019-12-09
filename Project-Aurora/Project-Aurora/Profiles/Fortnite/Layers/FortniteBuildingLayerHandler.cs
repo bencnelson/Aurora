@@ -14,6 +14,8 @@ using System.Runtime.InteropServices;
 namespace Aurora.Profiles.Fortnite.Layers {
 
     public class FortniteBuildingLayerHandler : AmbilightLayerHandler {
+        public const string STATUS = "building";
+
         public struct Rect
         {
             public int Left;
@@ -30,10 +32,10 @@ namespace Aurora.Profiles.Fortnite.Layers {
 
 
         public override EffectLayer Render(IGameState gamestate) {
-            EffectLayer layer = new EffectLayer("Forthite Building Layer");
+            EffectLayer layer = new EffectLayer($"Fortnite {STATUS} Layer");
 
             // Render nothing if invalid gamestate or player isn't on fire
-            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "building")
+            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != STATUS)
                 return layer;
 
             var hFgWnd = GetForegroundWindow();

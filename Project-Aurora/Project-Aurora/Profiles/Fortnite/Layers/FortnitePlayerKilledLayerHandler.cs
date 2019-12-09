@@ -43,6 +43,8 @@ namespace Aurora.Profiles.Fortnite.Layers {
 
     public class FortnitePlayerKilledLayerHandler : LayerHandler<FortnitePlayerKilledProperties>
     {
+        public const string STATUS = "player killed";
+
         private readonly AnimationTrack[] tracks =
         {
             new AnimationTrack("Goal Explosion Track 0", 1.0f, 0.0f),
@@ -57,6 +59,9 @@ namespace Aurora.Profiles.Fortnite.Layers {
         private ulong frameIdx = 0;
         private EffectLayer savedLayer = null;
 
+        private uint nframeDelay = ANIMATION_DUARATION + 1;
+        const uint ANIMATION_DUARATION = 15; //frames
+
         private static float goalEffect_keyframe = 0.0f;
         private const float goalEffect_animationTime = 3.0f;
 
@@ -70,11 +75,22 @@ namespace Aurora.Profiles.Fortnite.Layers {
             previoustime = currenttime;
             currenttime = Utils.Time.GetMillisecondsSinceEpoch();
 
-            EffectLayer layer = new EffectLayer("Fortnite Player Killed Layer");
+            EffectLayer layer = new EffectLayer($"Fortnite {STATUS} Layer");
             AnimationMix goal_explosion_mix = new AnimationMix();
 
-            if (!(gamestate is GameState_Fortnite) || (gamestate as GameState_Fortnite).Game.Status != "player killed")
+            if (!(gamestate is GameState_Fortnite))
                 return layer;
+
+            if ((gamestate as GameState_Fortnite).Game.Status == STATUS)
+            {
+                nframeDelay = 0;
+            }
+            else if (nframeDelay > ANIMATION_DUARATION)
+            {
+                savedLayer = null;
+                frameIdx = 0;
+                return layer;
+            }
 
             if (frameIdx++ % 2 != 0 && savedLayer != null) return savedLayer;
 
@@ -93,6 +109,7 @@ namespace Aurora.Profiles.Fortnite.Layers {
             }
 
             savedLayer = new EffectLayer(layer);
+            nframeDelay++;
 
             return layer;
         }

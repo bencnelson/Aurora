@@ -19,11 +19,33 @@ namespace Aurora.Profiles.Fortnite
             base.Reset();
 
             Layers = new ObservableCollection<Layer> {
-                new Layer("Enemy killed layer", new FortniteEnemyKilledLayerHandler(){
+                new Layer($"{FortnitePlayerKilledLayerHandler.STATUS} layer", new FortnitePlayerKilledLayerHandler() {
+                    Properties = new FortnitePlayerKilledProperties(Color.Red),
+                }),
+
+                new Layer($"{FortniteEnemyKilledLayerHandler.STATUS} layer", new FortniteEnemyKilledLayerHandler(){
                     Properties = new FortniteEnemyKilledProperties(Color.FromArgb(50, 205, 50)),
                 }),
 
-                new Layer("Poison layer", new FortnitePoisonLayerHandler()
+                new Layer($"{FortniteExplosionLayerHandler.STATUS} layer", new FortniteExplosionLayerHandler()),
+
+                new Layer($"{FortniteShootingLayerHandler.STATUS} layer", new FortniteShootingLayerHandler()),
+
+                new Layer($"{FortniteHarvestLayerHandler.STATUS} layer", new FortniteHarvestLayerHandler(){
+                    Properties = new AmbilightLayerHandlerProperties()
+                    {
+                        _AmbilightCaptureType = AmbilightCaptureType.Coordinates,
+                    },
+                }),
+
+                new Layer($"{FortniteBuildingLayerHandler.STATUS} layer", new FortniteBuildingLayerHandler(){
+                    Properties = new AmbilightLayerHandlerProperties()
+                    {
+                        _AmbilightCaptureType = AmbilightCaptureType.Coordinates,
+                    },
+                }),
+
+                new Layer($"{FortnitePoisonLayerHandler.STATUS} layer", new FortnitePoisonLayerHandler()
                 {
                     Properties = new BreathingLayerHandlerProperties()
                     {
@@ -34,29 +56,7 @@ namespace Aurora.Profiles.Fortnite
                     },
                 }),
 
-                new Layer("Gliding layer", new FortniteGlidingLayerHandler()),
-
-                new Layer("Building layer", new FortniteBuildingLayerHandler(){
-                    Properties = new AmbilightLayerHandlerProperties()
-                    {
-                        _AmbilightCaptureType = AmbilightCaptureType.Coordinates,
-                    },
-                }),
-
-                new Layer("Harvest layer", new FortniteHarvestLayerHandler(){
-                    Properties = new AmbilightLayerHandlerProperties()
-                    {
-                        _AmbilightCaptureType = AmbilightCaptureType.Coordinates,
-                    },
-                }),
-
-                new Layer("Player killed layer", new FortnitePlayerKilledLayerHandler() {
-                    Properties = new FortnitePlayerKilledProperties(Color.Red),
-                }),
-
-                new Layer("Shooting layer", new FortniteShootingLayerHandler()),
-
-                new Layer("Explosion layer", new FortniteExplosionLayerHandler()),
+                new Layer($"{FortniteGlidingLayerHandler.STATUS} layer", new FortniteGlidingLayerHandler()),
 
                 new Layer("interactive layer", new InteractiveLayerHandler {
                     Properties = new InteractiveLayerHandlerProperties {
