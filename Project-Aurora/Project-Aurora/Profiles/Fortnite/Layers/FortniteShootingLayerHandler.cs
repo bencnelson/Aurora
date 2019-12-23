@@ -61,8 +61,6 @@ namespace Aurora.Profiles.Fortnite.Layers {
                 layer.Set((Devices.DeviceKeys)(rNum % 216), colors[rNum % colors.Length]);
             }
 
-            layer.Set(Devices.DeviceKeys.SPACE, colors[rnd.Next() % colors.Length]);
-
             nframeDelay++;
 
             return layer;

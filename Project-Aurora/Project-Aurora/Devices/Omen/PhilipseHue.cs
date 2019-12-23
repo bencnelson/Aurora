@@ -204,7 +204,7 @@ namespace Aurora.Devices.Omen
                 {
                     on = true,
                     sat = (byte)(hsl.S * 254 + 0.5),
-                    bri = ((byte)(hsl.L * 254 + 0.5)) >> 1,
+                    bri = ((byte)(hsl.L * 254 + 0.5)) >> 2,
                     hue = (UInt16)(hsl.H * 65535.0 / 360.0 + 0.5)
                 });
 
@@ -212,11 +212,11 @@ namespace Aurora.Devices.Omen
             }
         }
 
-        public void SetKeys(Dictionary<DeviceKeys, Color> keyColors)
+        public void SetKeys(KeyValuePair<DeviceKeys, Color> key)
         {
-            if (keyColors.ContainsKey(DeviceKeys.SPACE))
+            if (key.Key == DeviceKeys.Peripheral_Logo)
             {
-                SetLighting(keyColors[DeviceKeys.SPACE]);
+                SetLighting(key.Value);
             }
         }
     }

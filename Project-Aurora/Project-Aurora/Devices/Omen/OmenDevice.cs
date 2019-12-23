@@ -164,6 +164,7 @@ namespace Aurora.Devices.Omen
                     {
                         UpdateMouse(key);
                         UpdateChassis(key);
+                        UpdateHueLighting(key);
                     }
                     if (key.Key >= DeviceKeys.MOUSEPADLIGHT1 && key.Key <= DeviceKeys.MOUSEPADLIGHT15)
                     {
@@ -173,12 +174,11 @@ namespace Aurora.Devices.Omen
                 }
 
                 UpdateKeyboard(keyColors);
-                UpdateHueLighting(keyColors);
-
             }
             catch (Exception)
             {
             }
+
             return false;
         }
 
@@ -191,7 +191,7 @@ namespace Aurora.Devices.Omen
             }
         }
 
-        private void UpdateHueLighting(Dictionary<DeviceKeys, Color> keyColors)
+        private void UpdateHueLighting(KeyValuePair<DeviceKeys, Color> key)
         {
             if (hueLighting != null)
             {
@@ -199,7 +199,7 @@ namespace Aurora.Devices.Omen
                 //    hueLighting.SetKeys(keyColors);
                 //} );
 
-                hueLighting.SetKeys(keyColors);
+                hueLighting.SetKeys(key);
                 peripheral_updated = true;
             }
         }
